@@ -10,6 +10,13 @@ const app = express();
 
 // Import routes
 const StudentsRoutes = require('./router/StudentsRouter'); // Ensure this path is correct
+const ClubsRouter = require('./router/ClubsRouter');
+const SportsRouter = require('./router/SportsRouter');
+const CulturalRouter = require('./router/CulturalRouter');
+const SocialRouter = require('./router/SocialRouter');
+const ScoutRouter = require('./router/ScoutRouter');
+const ScientificRouter = require('./router/ScientificRouter');
+const ArtsRouter = require('./router/ArtsRouter');
 
 // Middleware
 app.use(cors()); // Enable CORS
@@ -22,6 +29,13 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 
 // Routes
 app.use('/students', StudentsRoutes); // Define the base route for students
+app.use('/clubs', ClubsRouter); // Define the base route for clubs
+app.use('/sports', SportsRouter); // Define the base route for sports
+app.use('/cultural', CulturalRouter); // Define the base route for cultural
+app.use('/social', SocialRouter); // Define the base route for social
+app.use('/scout', ScoutRouter); // Define the base route for scout
+app.use('/scientific', ScientificRouter); // Define the base route for scientific
+app.use('/arts', ArtsRouter); // Define the base route for arts
 
 // Start the server
 const PORT = process.env.PORT || 3000; // Use environment variable or default to 3000
