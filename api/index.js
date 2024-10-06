@@ -38,5 +38,13 @@ app.use('/scientific', scientificRouter);
 app.use('/scout', scoutRouter);
 app.use('/social', socialRouter);
 
+// Define a port for the server
+const PORT = process.env.PORT || 3000; // Default to port 3000 if not defined in environment variables
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+
 // Export the app for serverless deployment or further use
 module.exports = app;
