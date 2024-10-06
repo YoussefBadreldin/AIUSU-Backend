@@ -1,10 +1,11 @@
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); // Load environment variables from .env file
 
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+// Initialize express app
 const app = express();
 
 // Import routes
@@ -18,15 +19,14 @@ const scoutRouter = require('./router/Scout');
 const socialRouter = require('./router/Social');
 
 app.use(cors());
-app.use(bodyParser.json());
 
-// MongoDB connection using environment variable
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+// Connect to MongoDB using environment variable
+mongoose.connect(process.env.MONGODB_URI, {})
     .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+    .catch(err => console.log(err));
+
+// Middleware
+app.use(bodyParser.json());
 
 // Routes
 app.use('/students', studentsRouter);
@@ -38,5 +38,8 @@ app.use('/scientific', scientificRouter);
 app.use('/scout', scoutRouter);
 app.use('/social', socialRouter);
 
-// Export the app for serverless deployment or further use
+// CORS OPTIONS preflight handler
+app.options('/auth/signup', cors());
+
+// Export the app for serverless deployment
 module.exports = app;
