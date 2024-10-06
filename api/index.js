@@ -1,30 +1,26 @@
-require('dotenv').config(); // Load environment variables from .env file
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-// Initialize express app
+require('dotenv').config(); // Load environment variables from .env file
+
 const app = express();
 
 // Import routes
-const StudentsRoutes = require('../router/StudentsRouter'); // Importing the students router
+const StudentsRoutes = require('./router/StudentsRouter'); // Ensure this path is correct
 
 // Middleware
-app.use(cors()); // Enable CORS
-app.use(bodyParser.json()); // Parse JSON bodies
+app.use(cors());
+app.use(bodyParser.json());
 
-// Connect to MongoDB using the environment variable
+// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log('MongoDB connection error:', err));
 
 // Routes
-app.use('/students', StudentsRoutes); // Adding the students routes
+app.use('/students', StudentsRoutes); // Ensure this line is present
 
-// CORS OPTIONS preflight handler
-app.options('/students', cors()); // Changed from '/auth/signup' to '/students' to match the context
-
-// Export the app for serverless deployment
+// Export the app
 module.exports = app;
