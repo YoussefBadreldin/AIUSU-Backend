@@ -7,6 +7,6 @@ const router = express.Router();
 router.post('/add', StudentsController.addStudent);
 
 // Route to get all students
-router.get('/', StudentsController.getStudents); // Ensure this route is defined correctly
+router.get('/', StudentsController.getStudents); // Route for fetching all students
 
 module.exports = router;
