@@ -1,46 +1,30 @@
-require('dotenv').config(); // Load environment variables
+require('dotenv').config(); // Load environment variables from .env file
 
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+// Initialize express app
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
-
 // Import routes
-const studentsRouter = require('../router/Students');
-const clubsRouter = require('../router/Clubs');
-const sportsRouter = require('../router/Sports');
-const artsRouter = require('../router/Arts');
-const culturalRouter = require('../router/Cultural');
-const scientificRouter = require('../router/Scientific');
-const scoutRouter = require('../router/Scout');
-const socialRouter = require('../router/Social');
+const StudentsRoutes = require('../router/StudentsRouter'); // Importing the students router
 
-// MongoDB connection using environment variable
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+// Middleware
+app.use(cors()); // Enable CORS
+app.use(bodyParser.json()); // Parse JSON bodies
+
+// Connect to MongoDB using the environment variable
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error('MongoDB connection error:', err));
+    .catch(err => console.log('MongoDB connection error:', err));
 
 // Routes
-app.use('/students', studentsRouter);
-app.use('/clubs', clubsRouter);
-app.use('/sports', sportsRouter);
-app.use('/arts', artsRouter);
-app.use('/cultural', culturalRouter);
-app.use('/scientific', scientificRouter);
-app.use('/scout', scoutRouter);
-app.use('/social', socialRouter);
+app.use('/students', StudentsRoutes); // Adding the students routes
 
-// Export the app for Vercel
+// CORS OPTIONS preflight handler
+app.options('/students', cors()); // Changed from '/auth/signup' to '/students' to match the context
+
+// Export the app for serverless deployment
 module.exports = app;
-
-// Vercel requires an exported function for serverless deployment
-module.exports.handler = app;
