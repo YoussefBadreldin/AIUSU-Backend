@@ -16,7 +16,7 @@ const getCultural = async (req, res) => {
     try {
         const cultural = await CulturalModel.find();
         if (cultural.length === 0) {
-            return res.status(404).json({ message: 'No cultural found' });
+            return res.status(404).json({ message: 'No cultural candidates found' });
         }
         return res.status(200).json(cultural);
     } catch (error) {

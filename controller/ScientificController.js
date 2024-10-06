@@ -16,7 +16,7 @@ const getScientific = async (req, res) => {
     try {
         const scientific = await ScientificModel.find();
         if (scientific.length === 0) {
-            return res.status(404).json({ message: 'No scientific found' });
+            return res.status(404).json({ message: 'No scientific candidates found' });
         }
         return res.status(200).json(scientific);
     } catch (error) {

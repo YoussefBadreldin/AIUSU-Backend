@@ -16,7 +16,7 @@ const getArts = async (req, res) => {
     try {
         const arts = await ArtsModel.find();
         if (arts.length === 0) {
-            return res.status(404).json({ message: 'No arts found' });
+            return res.status(404).json({ message: 'No arts candidates found' });
         }
         return res.status(200).json(arts);
     } catch (error) {

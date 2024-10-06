@@ -16,7 +16,7 @@ const getSocial = async (req, res) => {
     try {
         const social = await SocialModel.find();
         if (social.length === 0) {
-            return res.status(404).json({ message: 'No social found' });
+            return res.status(404).json({ message: 'No social candidates found' });
         }
         return res.status(200).json(social);
     } catch (error) {

@@ -16,7 +16,7 @@ const getScout = async (req, res) => {
     try {
         const scout = await ScoutModel.find();
         if (scout.length === 0) {
-            return res.status(404).json({ message: 'No scout found' });
+            return res.status(404).json({ message: 'No scout candidates found' });
         }
         return res.status(200).json(scout);
     } catch (error) {

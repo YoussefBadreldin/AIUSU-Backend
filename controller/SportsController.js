@@ -16,7 +16,7 @@ const getSports = async (req, res) => {
     try {
         const sports = await SportsModel.find();
         if (sports.length === 0) {
-            return res.status(404).json({ message: 'No sports found' });
+            return res.status(404).json({ message: 'No sports candidates found' });
         }
         return res.status(200).json(sports);
     } catch (error) {

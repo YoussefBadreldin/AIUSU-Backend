@@ -16,7 +16,7 @@ const getClubs = async (req, res) => {
     try {
         const clubs = await ClubsModel.find();
         if (clubs.length === 0) {
-            return res.status(404).json({ message: 'No clubs found' });
+            return res.status(404).json({ message: 'No clubs candidates found' });
         }
         return res.status(200).json(clubs);
     } catch (error) {
