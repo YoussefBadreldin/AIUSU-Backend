@@ -6,15 +6,17 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // Import routes
-const StudentsRouter = require('../router/StudentsRouter');
-const MembersRouter = require('./router/MembersRouter');
-const ClubsRouter = require('../router/ClubsRouter');
-const SportsRouter = require('../router/SportsRouter');
-const CulturalRouter = require('../router/CulturalRouter');
-const SocialRouter = require('../router/SocialRouter');
-const ScoutRouter = require('../router/ScoutRouter');
-const ScientificRouter = require('../router/ScientificRouter');
-const ArtsRouter = require('../router/ArtsRouter');
+const routes = {
+    students: require('../router/StudentsRouter'),
+    members: require('./router/MembersRouter'),
+    clubs: require('../router/ClubsRouter'),
+    sports: require('../router/SportsRouter'),
+    cultural: require('../router/CulturalRouter'),
+    social: require('../router/SocialRouter'),
+    scout: require('../router/ScoutRouter'),
+    scientific: require('../router/ScientificRouter'),
+    arts: require('../router/ArtsRouter'),
+};
 
 // Initialize express app
 const app = express();
@@ -24,20 +26,17 @@ app.use(cors()); // Enable CORS
 app.use(bodyParser.json()); // Parse JSON bodies
 
 // Connect to MongoDB using the environment variable
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
     .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log('MongoDB connection error:', err));
+    .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
-app.use('/students', StudentsRouter);
-app.use('/members', MembersRouter); 
-app.use('/clubs', ClubsRouter);
-app.use('/sports', SportsRouter);
-app.use('/cultural', CulturalRouter);
-app.use('/social', SocialRouter);
-app.use('/scout', ScoutRouter);
-app.use('/scientific', ScientificRouter);
-app.use('/arts', ArtsRouter);
+Object.entries(routes).forEach(([key, router]) => {
+    app.use(`/${key}`, router);
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000; // Use environment variable or default to 3000
