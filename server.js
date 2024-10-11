@@ -10,6 +10,7 @@ const app = express();
 
 // Import routes
 const StudentsRoutes = require('./router/StudentsRouter'); // Ensure this path is correct
+const MembersRouter = require('./router/MembersRouter');// Ensure this path is correct
 const ClubsRouter = require('./router/ClubsRouter');
 const SportsRouter = require('./router/SportsRouter');
 const CulturalRouter = require('./router/CulturalRouter');
@@ -29,6 +30,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 
 // Routes
 app.use('/students', StudentsRoutes); // Define the base route for students
+app.use('/members', MembersRouter); // Define the base route for students
 app.use('/clubs', ClubsRouter); // Define the base route for clubs
 app.use('/sports', SportsRouter); // Define the base route for sports
 app.use('/cultural', CulturalRouter); // Define the base route for cultural
