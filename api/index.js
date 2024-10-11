@@ -10,7 +10,7 @@ const app = express();
 
 // Import routes
 const StudentsRoutes = require('./router/StudentsRouter'); // Ensure this path is correct
-const MembersRouter = require('./router/MembersRouter'); // Ensure this path is correct
+const MembersRouter = require('./router/MembersRouter');// Ensure this path is correct
 const ClubsRouter = require('./router/ClubsRouter');
 const SportsRouter = require('./router/SportsRouter');
 const CulturalRouter = require('./router/CulturalRouter');
@@ -30,7 +30,7 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 
 // Routes
 app.use('/students', StudentsRoutes); // Define the base route for students
-app.use('/members', MembersRouter); // Define the base route for members
+app.use('/members', MembersRouter); // Define the base route for students
 app.use('/clubs', ClubsRouter); // Define the base route for clubs
 app.use('/sports', SportsRouter); // Define the base route for sports
 app.use('/cultural', CulturalRouter); // Define the base route for cultural
@@ -39,5 +39,11 @@ app.use('/scout', ScoutRouter); // Define the base route for scout
 app.use('/scientific', ScientificRouter); // Define the base route for scientific
 app.use('/arts', ArtsRouter); // Define the base route for arts
 
-// Export the app for serverless deployment
+// Start the server
+const PORT = process.env.PORT || 3000; // Use environment variable or default to 3000
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+// Export the app for serverless deployment (if needed)
 module.exports = app;
