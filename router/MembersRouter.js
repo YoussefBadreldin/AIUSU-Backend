@@ -3,10 +3,10 @@ const MembersController = require('../controller/MembersController');
 
 const router = express.Router();
 
-// Route to add a new Member
+// Route to add a new member
 router.post('/add', MembersController.addMember);
 
-// Route to get all Members
-router.get('/', MembersController.getMembers); // Route for fetching all Members
+// Route to get all members
+router.get('/', MembersController.getMembers);
 
 module.exports = router;
