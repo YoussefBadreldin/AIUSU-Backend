@@ -7,7 +7,6 @@ const cors = require('cors');
 
 // Import routes
 const StudentsRouter = require('../router/StudentsRouter');
-const MembersRouter = require('./router/MembersRouter');
 const ClubsRouter = require('../router/ClubsRouter');
 const SportsRouter = require('../router/SportsRouter');
 const CulturalRouter = require('../router/CulturalRouter');
@@ -30,7 +29,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 
 // Routes
 app.use('/students', StudentsRouter);
-app.use('/members', MembersRouter);
 app.use('/clubs', ClubsRouter);
 app.use('/sports', SportsRouter);
 app.use('/cultural', CulturalRouter);
