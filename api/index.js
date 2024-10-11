@@ -1,5 +1,5 @@
 // api/index.js
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -9,9 +9,21 @@ const cors = require('cors');
 // Initialize express app
 const app = express();
 
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+
+// Connect to MongoDB
+const connectToDatabase = async () => {
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log('MongoDB connected');
+    }
+};
+
 // Import routes
-const StudentsRoutes = require('./router/StudentsRouter'); // Ensure this path is correct
-const MembersRouter = require('./router/MembersRouter'); // Ensure this path is correct
+const StudentsRoutes = require('./router/StudentsRouter'); 
+const MembersRouter = require('./router/MembersRouter'); 
 const ClubsRouter = require('./router/ClubsRouter');
 const SportsRouter = require('./router/SportsRouter');
 const CulturalRouter = require('./router/CulturalRouter');
@@ -20,25 +32,28 @@ const ScoutRouter = require('./router/ScoutRouter');
 const ScientificRouter = require('./router/ScientificRouter');
 const ArtsRouter = require('./router/ArtsRouter');
 
-// Middleware
-app.use(cors()); // Enable CORS
-app.use(bodyParser.json()); // Parse JSON bodies
-
-// Connect to MongoDB using the environment variable
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.log('MongoDB connection error:', err));
+// Connect to database before defining routes
+app.use(async (req, res, next) => {
+    await connectToDatabase();
+    next();
+});
 
 // Routes
-app.use('/students', StudentsRoutes); // Define the base route for students
-app.use('/members', MembersRouter); // Define the base route for members
-app.use('/clubs', ClubsRouter); // Define the base route for clubs
-app.use('/sports', SportsRouter); // Define the base route for sports
-app.use('/cultural', CulturalRouter); // Define the base route for cultural
-app.use('/social', SocialRouter); // Define the base route for social
-app.use('/scout', ScoutRouter); // Define the base route for scout
-app.use('/scientific', ScientificRouter); // Define the base route for scientific
-app.use('/arts', ArtsRouter); // Define the base route for arts
+app.use('/students', StudentsRoutes);
+app.use('/members', MembersRouter);
+app.use('/clubs', ClubsRouter);
+app.use('/sports', SportsRouter);
+app.use('/cultural', CulturalRouter);
+app.use('/social', SocialRouter);
+app.use('/scout', ScoutRouter);
+app.use('/scientific', ScientificRouter);
+app.use('/arts', ArtsRouter);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 // Export the app for serverless deployment
 module.exports = app;
